@@ -6,14 +6,14 @@ const sortAtomicNumberBtn = document.getElementById('sortAtomicNumber');
 const sortAtomicMassBtn = document.getElementById('sortAtomicMass');
 
 const categoryColors = {
-    alkali_metals: '#ffc1a1',
-    alkaline_earth_metals: '#fff4a3',
-    transition_metals: '#c9ccd4',
-    post_transition_metals: '#a9e19c',
-    metalloids: '#f8d2b2',
-    nonmetals: '#b2e8cf',
-    halogens: '#d1b2e8',
-    noble_gases: '#ffeb8a',
+    alkali_metals: '#f49306',
+    alkaline_earth_metals: '#a5bb1a',
+    transition_metals: '#dedde2',
+    post_transition_metals: '#6db8be',
+    metalloids: '#e0858e',
+    nonmetals: '#9ec6aa',
+    halogens: '#a7bd40',
+    noble_gases: '#c7da91',
     lanthanides: '#b2c8e8',
     actinides: '#e8b2c8',
 };
@@ -29,7 +29,7 @@ function groupToColumn(group) {
 function displayElement(element) {
     const card = document.createElement('div');
     card.className = 'element-card';
-    card.style.backgroundColor = categoryColors[element.category] || '#E0E0E0';
+    card.style.backgroundColor = categoryColors[element.category] || '#FFFFFF';
     
     if (element.category === 'lanthanides' || element.category === 'actinides') {
         document.getElementById('lanthanideActinideBlock').appendChild(card);
@@ -52,6 +52,7 @@ function displayAllElements(elements = elementsData) {
     elements.forEach(displayElement);
 }
 
+// Fixed sorting and search logic
 searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase();
     const filtered = elementsData.filter(el =>

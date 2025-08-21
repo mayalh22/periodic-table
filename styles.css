@@ -45,7 +45,7 @@ h1 {
     padding: 10px 15px;
     border: none;
     border-radius: 20px;
-    background-color: #a4b0be; /* Muted gray-blue */
+    background-color: #6a6a6a; /* A neutral color that works with the new palette */
     color: white;
     font-size: 1rem;
     cursor: pointer;
@@ -53,7 +53,7 @@ h1 {
 }
 
 .controls button:hover {
-    background-color: #778ca3; /* Darker gray-blue on hover */
+    background-color: #444; /* Darker shade on hover */
     transform: translateY(-2px);
 }
 
