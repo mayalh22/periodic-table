@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Periodic Table Search</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Periodic Table</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Periodic Table Search</h1>
-
-    <input type="text" id="search" placeholder="search by name, symbol, number, or mass">
-    <button id="search-btn">search</button>
-
-    <div id="result"></div>
-
-    <script src="script.js"></script>
+  <header>
+    <h1>Interactive Periodic Table</h1>
+    <input type="text" id="searchInput" placeholder="Search elements...">
+    <select id="categoryFilter">
+      <option value="">All Categories</option>
+      <option value="alkali_metals">Alkali Metals</option>
+      <option value="noble_gases">Noble Gases</option>
+      <!-- Add more categories as needed -->
+    </select>
+    <button id="sortButton">Sort by Name</button>
+  </header>
+  <main id="elementsContainer"></main>
+  <div id="elementModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <p id="modalDetails"></p>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
