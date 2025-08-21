@@ -1,3 +1,12 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search');
+    const searchBtn = document.getElementById('search-btn');
+    const resultDiv = document.getElementById('result');
+
+    searchBtn.addEventListener('click', searchElements);
+    searchInput.addEventListener('input', searchElements);
+});
+
 const elementsData = [
   { atomicNumber: 1, symbol: 'H', name: 'Hydrogen', category: 'nonmetals', group: '1A', atomicMass: 1.008, electronConfiguration: '1s1', density: 0.00008988, meltingPoint: 13.99, boilingPoint: 20.271, description: 'Hydrogen is the chemical element with atomic number 1.' },
   { atomicNumber: 2, symbol: 'He', name: 'Helium', category: 'noble_gases', group: '18A', atomicMass: 4.0026, electronConfiguration: '1s2', density: 0.0001786, meltingPoint: 0.0, boilingPoint: 4.222, description: 'Helium is a colorless, odorless, tasteless, inert, monatomic gas that heads the noble gas group in the periodic table.' },
@@ -119,9 +128,9 @@ const elementsData = [
   { atomicNumber: 118, symbol: 'Og', name: 'Oganesson', category: 'noble_gases', group: '18A', atomicMass: 294, electronConfiguration: '[Rn] 5f14 6d10 7s2 7p6', density: null, meltingPoint: null, boilingPoint: null, description: 'Oganesson is a chemical element with symbol Og and atomic number 118.' }
 ];
 
-const searchInput = document.getElementById('search');
-const searchBtn = document.getElementById('search-btn');
-const resultDiv = document.getElementById('result');
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('sortButton');
+const resultDiv = document.getElementById('elementsContainer');
 
 function displayElement(element) {
     const card = document.createElement('div');
