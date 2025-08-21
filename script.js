@@ -6,16 +6,16 @@ const sortAtomicNumberBtn = document.getElementById('sortAtomicNumber');
 const sortAtomicMassBtn = document.getElementById('sortAtomicMass');
 
 const categoryColors = {
-    alkali_metals: '#FF7F50',
-    alkaline_earth_metals: '#F4A460',
-    transition_metals: '#A9A9A9',
-    post_transition_metals: '#6B8E23',
-    metalloids: '#CD853F',
-    nonmetals: '#20B2AA',
-    halogens: '#9370DB',
-    noble_gases: '#FFD700',
-    lanthanides: '#8A2BE2',
-    actinides: '#DEB887',
+    alkali_metals: '#ffc1a1',
+    alkaline_earth_metals: '#fff4a3',
+    transition_metals: '#c9ccd4',
+    post_transition_metals: '#a9e19c',
+    metalloids: '#f8d2b2',
+    nonmetals: '#b2e8cf',
+    halogens: '#d1b2e8',
+    noble_gases: '#ffeb8a',
+    lanthanides: '#b2c8e8',
+    actinides: '#e8b2c8',
 };
 
 function groupToColumn(group) {
