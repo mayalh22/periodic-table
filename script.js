@@ -1,12 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search');
-    const searchBtn = document.getElementById('search-btn');
-    const resultDiv = document.getElementById('result');
-
-    searchBtn.addEventListener('click', searchElements);
-    searchInput.addEventListener('input', searchElements);
-});
-
 const elementsData = [
   { atomicNumber: 1, symbol: 'H', name: 'Hydrogen', category: 'nonmetals', group: '1A', atomicMass: 1.008, electronConfiguration: '1s1', density: 0.00008988, meltingPoint: 13.99, boilingPoint: 20.271, description: 'Hydrogen is the chemical element with atomic number 1.' },
   { atomicNumber: 2, symbol: 'He', name: 'Helium', category: 'noble_gases', group: '18A', atomicMass: 4.0026, electronConfiguration: '1s2', density: 0.0001786, meltingPoint: 0.0, boilingPoint: 4.222, description: 'Helium is a colorless, odorless, tasteless, inert, monatomic gas that heads the noble gas group in the periodic table.' },
@@ -127,72 +118,62 @@ const elementsData = [
   { atomicNumber: 117, symbol: 'Ts', name: 'Tennessine', category: 'halogens', group: '7A', atomicMass: 294, electronConfiguration: '[Rn] 5f14 6d10 7s2 7p5', density: null, meltingPoint: null, boilingPoint: null, description: 'Tennessine is a chemical element with symbol Ts and atomic number 117.' },
   { atomicNumber: 118, symbol: 'Og', name: 'Oganesson', category: 'noble_gases', group: '18A', atomicMass: 294, electronConfiguration: '[Rn] 5f14 6d10 7s2 7p6', density: null, meltingPoint: null, boilingPoint: null, description: 'Oganesson is a chemical element with symbol Og and atomic number 118.' }
 ];
+// Color mapping for categories
+const categoryColors = {
+  alkali_metals: '#FF6666',
+  alkaline_earth_metals: '#FFDEAD',
+  transition_metals: '#FFD700',
+  post_transition_metals: '#B0C4DE',
+  metalloids: '#8FBC8F',
+  nonmetals: '#00FA9A',
+  halogens: '#FFB6C1',
+  noble_gases: '#87CEFA'
+};
 
+const resultDiv = document.getElementById('resultDiv');
 const searchInput = document.getElementById('searchInput');
-const searchBtn = document.getElementById('sortButton');
-const resultDiv = document.getElementById('elementsContainer');
+const sortButton = document.getElementById('sortButton');
 
 function displayElement(element) {
-    const card = document.createElement('div');
-    card.className = 'card';
-
-    card.innerHTML = `
-      <strong>${element.name} (${element.symbol})</strong><br>
-      atomic number: ${element.atomicNumber}<br>
-      category: ${element.category.replace(/_/g, ' ')}<br>
-      group: ${element.group}<br>
-      atomic mass: ${element.atomicMass}<br>
-      electron configuration: ${element.electronConfiguration}<br>
-      density: ${element.density} g/cm³<br>
-      melting point: ${element.meltingPoint} K<br>
-      boiling point: ${element.boilingPoint} K<br>
-      description: ${element.description}
-      <br><button class="copy-btn">copy info</button>
-    `;
-
-    // copy to clipboard functionality
-    card.querySelector('.copy-btn').addEventListener('click', () => {
-        navigator.clipboard.writeText(`
-${element.name} (${element.symbol})
-atomic number: ${element.atomicNumber}
-category: ${element.category.replace(/_/g, ' ')}
-group: ${element.group}
-atomic mass: ${element.atomicMass}
-electron configuration: ${element.electronConfiguration}
-density: ${element.density} g/cm³
-melting point: ${element.meltingPoint} K
-boiling point: ${element.boilingPoint} K
-description: ${element.description}
-        `);
-        alert(`${element.name} info copied to clipboard!`);
-    });
-
-    resultDiv.appendChild(card);
+  const card = document.createElement('div');
+  card.className = 'element-card';
+  card.style.backgroundColor = categoryColors[element.category] || '#FFFFFF';
+  card.innerHTML = `
+    <h3>${element.name} (${element.symbol})</h3>
+    <p>Atomic Number: ${element.atomicNumber}</p>
+    <p>Category: ${element.category.replace(/_/g, ' ')}</p>
+    <p>Group: ${element.group}</p>
+    <p>Atomic Mass: ${element.atomicMass}</p>
+    <p>Electron Configuration: ${element.electronConfiguration}</p>
+    <p>Density: ${element.density} g/cm³</p>
+    <p>Melting Point: ${element.meltingPoint} K</p>
+    <p>Boiling Point: ${element.boilingPoint} K</p>
+    <p>${element.description}</p>
+  `;
+  resultDiv.appendChild(card);
 }
 
-function searchElements() {
-    const query = searchInput.value.toLowerCase().trim();
-    resultDiv.innerHTML = '';
-
-    if (!query) return;
-
-    const foundElements = elementsData.filter(el => 
-        el.name.toLowerCase().includes(query) ||
-        el.symbol.toLowerCase().includes(query) ||
-        el.atomicNumber.toString() === query ||
-        el.atomicMass.toString().includes(query) ||
-        el.category.toLowerCase().includes(query)
-    );
-
-    if (foundElements.length) {
-        foundElements.forEach(displayElement);
-    } else {
-        resultDiv.textContent = 'no element found';
-    }
+function displayAllElements(elements = elementsData) {
+  resultDiv.innerHTML = '';
+  elements.forEach(displayElement);
 }
 
-// search on button click
-searchBtn.addEventListener('click', searchElements);
+// Live search by name or symbol
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.toLowerCase();
+  const filtered = elementsData.filter(el =>
+    el.name.toLowerCase().includes(query) || el.symbol.toLowerCase().includes(query)
+  );
+  displayAllElements(filtered);
+});
 
-// live search as user types
-searchInput.addEventListener('input', searchElements);
+// Sorting by atomic number
+let ascending = true;
+sortButton.addEventListener('click', () => {
+  const sorted = [...elementsData].sort((a, b) => ascending ? a.atomicNumber - b.atomicNumber : b.atomicNumber - a.atomicNumber);
+  ascending = !ascending;
+  displayAllElements(sorted);
+});
+
+// Initial display
+document.addEventListener('DOMContentLoaded', () => displayAllElements());
