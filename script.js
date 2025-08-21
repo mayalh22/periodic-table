@@ -127,7 +127,6 @@ searchBtn.addEventListener('click', () => {
   const query = searchInput.value.toLowerCase().trim();
 
   const element = elements.find(el => {
-    // convert number and mass to strings for comparison
     return el.name.toLowerCase().includes(query) ||
            el.symbol.toLowerCase().includes(query) ||
            el.number.toString().includes(query) ||
@@ -140,9 +139,9 @@ searchBtn.addEventListener('click', () => {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <strong>${el.name} (${el.symbol})</strong><br>
-      atomic number: ${el.number}<br>
-      atomic mass: ${el.mass}
+      <strong>${element.name} (${element.symbol})</strong><br>
+      atomic number: ${element.number}<br>
+      atomic mass: ${element.mass}
     `;
     resultDiv.appendChild(card);
   } else {
