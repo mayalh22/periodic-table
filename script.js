@@ -124,26 +124,27 @@ const searchBtn = document.getElementById('search-btn');
 const resultDiv = document.getElementById('result');
 
 searchBtn.addEventListener('click', () => {
-    const query = searchInput.value.toLowerCase().trim();
-    const element = elements.find(el => 
-        el.name.toLowerCase() === query ||
-        el.symbol.toLowerCase() === query ||
-        el.number.toString() === query ||
-        el.mass.toString() === query
-    );
+  const query = searchInput.value.toLowerCase().trim();
 
-    resultDiv.innerHTML = '';
+  const element = elements.find(el => {
+    return el.name.toLowerCase() === query ||
+           el.symbol.toLowerCase() === query ||
+           el.number.toString() === query ||
+           el.mass.toString() === query;
+  });
 
-    if (element) {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-            <strong>${element.name} (${element.symbol})</strong><br>
-            atomic number: ${element.number}<br>
-            atomic mass: ${element.mass}
-        `;
-        resultDiv.appendChild(card);
-    } else {
-        resultDiv.textContent = 'no element found';
-    }
+  resultDiv.innerHTML = '';
+
+  if (element) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <strong>${element.name} (${element.symbol})</strong><br>
+      atomic number: ${element.number}<br>
+      atomic mass: ${element.mass}
+    `;
+    resultDiv.appendChild(card);
+  } else {
+    resultDiv.textContent = 'no element found';
+  }
 });
