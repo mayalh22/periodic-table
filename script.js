@@ -127,8 +127,8 @@ searchBtn.addEventListener('click', () => {
   const query = searchInput.value.toLowerCase().trim();
 
   const element = elements.find(el => {
-    return el.name.toLowerCase() === query ||
-           el.symbol.toLowerCase() === query ||
+    return el.name.toLowerCase().includes(query) ||
+           el.symbol.toLowerCase().includes(query) ||
            el.number.toString() === query ||
            el.mass.toString() === query;
   });
