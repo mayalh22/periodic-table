@@ -2,61 +2,80 @@ import { elementsData } from './elementsData.js';
 
 const tableDiv = document.getElementById('periodicTable');
 const searchInput = document.getElementById('searchInput');
-const sortButton = document.getElementById('sortButton');
+const sortAtomicNumberBtn = document.getElementById('sortAtomicNumber');
+const sortAtomicMassBtn = document.getElementById('sortAtomicMass');
 
 const categoryColors = {
-  alkali_metals: '#f49306',
-  alkaline_earth_metals: '#a5bb1a',
-  transition_metals: '#dedde2',
-  post_transition_metals: '#6db8be',
-  metalloids: '#e0858e',
-  nonmetals: '#9ec6aa',
-  halogens: '#a7bd40',
-  noble_gases: '#c7da91'
+    alkali_metals: '#FF7F50',
+    alkaline_earth_metals: '#F4A460',
+    transition_metals: '#A9A9A9',
+    post_transition_metals: '#6B8E23',
+    metalloids: '#CD853F',
+    nonmetals: '#20B2AA',
+    halogens: '#9370DB',
+    noble_gases: '#FFD700',
+    lanthanides: '#8A2BE2',
+    actinides: '#DEB887',
 };
 
 function groupToColumn(group) {
-  const map = { '1A':1,'2A':2,'3A':13,'4A':14,'5A':15,'6A':16,'7A':17,'8A':18 };
-  return map[group] || 1;
+    const map = {
+        '1A': 1, '2A': 2, '3A': 13, '4A': 14, '5A': 15, '6A': 16, '7A': 17, '8A': 18,
+        '3B': 3, '4B': 4, '5B': 5, '6B': 6, '7B': 7, '8B': 8, '9B': 9, '10B': 10, '11B': 11, '12B': 12,
+    };
+    return map[group];
 }
 
 function displayElement(element) {
-  const card = document.createElement('div');
-  card.className = 'element-card';
-  card.style.backgroundColor = categoryColors[element.category] || '#FFFFFF';
-  card.style.gridColumn = groupToColumn(element.group);
-  card.style.gridRow = element.period;
-  card.innerHTML = `
-    <strong>${element.symbol}</strong><br>
-    ${element.atomicNumber}<br>
-    ${element.name}
-  `;
-  tableDiv.appendChild(card);
+    const card = document.createElement('div');
+    card.className = 'element-card';
+    card.style.backgroundColor = categoryColors[element.category] || '#E0E0E0';
+    
+    if (element.category === 'lanthanides' || element.category === 'actinides') {
+        document.getElementById('lanthanideActinideBlock').appendChild(card);
+    } else {
+        card.style.gridColumn = groupToColumn(element.group);
+        card.style.gridRow = element.period;
+        tableDiv.appendChild(card);
+    }
+
+    card.innerHTML = `
+        <strong>${element.symbol}</strong><br>
+        <small>${element.atomicNumber}</small><br>
+        <span class="name">${element.name}</span>
+    `;
 }
 
 function displayAllElements(elements = elementsData) {
-  tableDiv.innerHTML = '';
-  elements.forEach(displayElement);
+    tableDiv.innerHTML = '';
+    document.getElementById('lanthanideActinideBlock').innerHTML = '';
+    elements.forEach(displayElement);
 }
 
-// Live search
 searchInput.addEventListener('input', () => {
-  const query = searchInput.value.toLowerCase();
-  const filtered = elementsData.filter(el =>
-    el.name.toLowerCase().includes(query) || el.symbol.toLowerCase().includes(query)
-  );
-  displayAllElements(filtered);
+    const query = searchInput.value.toLowerCase();
+    const filtered = elementsData.filter(el =>
+        el.name.toLowerCase().includes(query) || el.symbol.toLowerCase().includes(query)
+    );
+    displayAllElements(filtered);
 });
 
-// Sorting
-let ascending = true;
-sortButton.addEventListener('click', () => {
-  const sorted = [...elementsData].sort((a,b) =>
-    ascending ? a.atomicNumber - b.atomicNumber : b.atomicNumber - a.atomicNumber
-  );
-  ascending = !ascending;
-  displayAllElements(sorted);
+let atomicNumberAscending = true;
+sortAtomicNumberBtn.addEventListener('click', () => {
+    const sorted = [...elementsData].sort((a, b) => {
+        return atomicNumberAscending ? a.atomicNumber - b.atomicNumber : b.atomicNumber - a.atomicNumber;
+    });
+    atomicNumberAscending = !atomicNumberAscending;
+    displayAllElements(sorted);
 });
 
-// Initial display
+let atomicMassAscending = true;
+sortAtomicMassBtn.addEventListener('click', () => {
+    const sorted = [...elementsData].sort((a, b) => {
+        return atomicMassAscending ? a.atomicMass - b.atomicMass : b.atomicMass - a.atomicMass;
+    });
+    atomicMassAscending = !atomicMassAscending;
+    displayAllElements(sorted);
+});
+
 document.addEventListener('DOMContentLoaded', () => displayAllElements());
