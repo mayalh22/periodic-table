@@ -1,122 +1,70 @@
-<input type="text" id="searchInput" placeholder="Search by name or symbol">
-<button id="sortButton">Sort by Atomic Number</button>
-<div id="periodicTable" class="table-grid"></div>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Periodic Table</title>
 <style>
-  .table-grid {
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #edffe0;
+    color: #22470a;
+  }
+
+  #searchInput {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 200px;
+  }
+
+  #sortButton {
+    margin-left: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #34a853;
+    color: #edffe0;
+    border: none;
+    border-radius: 5px;
+  }
+
+  #sortButton:hover {
+    background-color: #7dd277;
+  }
+
+  #periodicTable {
     display: grid;
     grid-template-columns: repeat(18, 80px);
+    grid-auto-rows: 100px;
     gap: 5px;
+    margin-top: 20px;
   }
+
   .element-card {
     padding: 5px;
     border-radius: 5px;
     text-align: center;
     font-size: 12px;
     color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    transition: transform 0.1s;
+  }
+
+  .element-card:hover {
+    transform: scale(1.05);
   }
 </style>
+</head>
+<body>
 
-<script>
-const elementsData = [
-  {
-    atomicNumber: 3,
-    symbol: 'Li',
-    name: 'Lithium',
-    category: 'alkali_metals',
-    group: '1A',
-    atomicMass: 6.94,
-    electronConfiguration: '1s2 2s1',
-    density: 0.534,
-    meltingPoint: 453.65,
-    boilingPoint: 1560,
-    description: 'Lithium is a chemical element with symbol Li and atomic number 3.'
-  },
-  {
-    atomicNumber: 1,
-    symbol: 'H',
-    name: 'Hydrogen',
-    category: 'nonmetals',
-    group: '1A',
-    atomicMass: 1.008,
-    electronConfiguration: '1s1',
-    density: 0.00008988,
-    meltingPoint: 14.01,
-    boilingPoint: 20.28,
-    description: 'Hydrogen is a chemical element with symbol H and atomic number 1.'
-  },
-  {
-    atomicNumber: 2,
-    symbol: 'He',
-    name: 'Helium',
-    category: 'noble_gases',
-    group: '8A',
-    atomicMass: 4.0026,
-    electronConfiguration: '1s2',
-    density: 0.0001785,
-    meltingPoint: 0.95,
-    boilingPoint: 4.22,
-    description: 'Helium is a chemical element with symbol He and atomic number 2.'
-  },
-  // Add more elements here
-];
+<input type="text" id="searchInput" placeholder="Search by name or symbol">
+<button id="sortButton">Sort by Atomic Number</button>
+<div id="periodicTable"></div>
 
-const categoryColors = {
-  alkali_metals: '#FF6666',
-  alkaline_earth_metals: '#FFDEAD',
-  transition_metals: '#FFD700',
-  post_transition_metals: '#B0C4DE',
-  metalloids: '#8FBC8F',
-  nonmetals: '#00FA9A',
-  halogens: '#FFB6C1',
-  noble_gases: '#87CEFA'
-};
+<script type="module" src="script.js"></script>
 
-const tableDiv = document.getElementById('periodicTable');
-const searchInput = document.getElementById('searchInput');
-const sortButton = document.getElementById('sortButton');
-
-function groupToColumn(group) {
-  // Map group letters to grid columns (1A=1, 2A=2, ..., 8A=18)
-  const map = {'1A':1,'2A':2,'3A':13,'4A':14,'5A':15,'6A':16,'7A':17,'8A':18};
-  return map[group] || 1;
-}
-
-function displayElement(element) {
-  const card = document.createElement('div');
-  card.className = 'element-card';
-  card.style.backgroundColor = categoryColors[element.category] || '#FFFFFF';
-  card.style.gridColumn = groupToColumn(element.group);
-  card.innerHTML = `
-    <strong>${element.symbol}</strong><br>
-    ${element.atomicNumber}<br>
-    ${element.name}
-  `;
-  tableDiv.appendChild(card);
-}
-
-function displayAllElements(elements = elementsData) {
-  tableDiv.innerHTML = '';
-  elements.forEach(displayElement);
-}
-
-// Live search
-searchInput.addEventListener('input', () => {
-  const query = searchInput.value.toLowerCase();
-  const filtered = elementsData.filter(el =>
-    el.name.toLowerCase().includes(query) || el.symbol.toLowerCase().includes(query)
-  );
-  displayAllElements(filtered);
-});
-
-// Sorting by atomic number
-let ascending = true;
-sortButton.addEventListener('click', () => {
-  const sorted = [...elementsData].sort((a,b) => ascending ? a.atomicNumber - b.atomicNumber : b.atomicNumber - a.atomicNumber);
-  ascending = !ascending;
-  displayAllElements(sorted);
-});
-
-// Initial display
-document.addEventListener('DOMContentLoaded', () => displayAllElements());
-</script>
+</body>
+</html>
