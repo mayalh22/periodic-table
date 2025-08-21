@@ -126,24 +126,26 @@ const resultDiv = document.getElementById('result');
 searchBtn.addEventListener('click', () => {
   const query = searchInput.value.toLowerCase().trim();
 
-  const element = elements.find(el => {
+  const matches = elements.filter(el => {
     return el.name.toLowerCase().includes(query) ||
            el.symbol.toLowerCase().includes(query) ||
-           el.number.toString().includes(query) ||
-           el.mass.toString().includes(query);
+           el.number.toString() === query ||
+           el.mass.toString() === query;
   });
 
   resultDiv.innerHTML = '';
 
-  if (element) {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <strong>${element.name} (${element.symbol})</strong><br>
-      atomic number: ${element.number}<br>
-      atomic mass: ${element.mass}
-    `;
-    resultDiv.appendChild(card);
+  if (matches.length > 0) {
+    matches.forEach(element => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <strong>${element.name} (${element.symbol})</strong><br>
+        atomic number: ${element.number}<br>
+        atomic mass: ${element.mass}
+      `;
+      resultDiv.appendChild(card);
+    });
   } else {
     resultDiv.textContent = 'no element found';
   }
